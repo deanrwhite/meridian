@@ -16,7 +16,8 @@ export const ORG_IDS = [
 ] as const;
 export type OrgId = (typeof ORG_IDS)[number];
 
-export interface Organization { id: OrgId; name: string; country: string; description: string; }
+export type OrgKind = "agency" | "company";
+export interface Organization { id: OrgId; name: string; country: string; kind: OrgKind; website: string; description: string; }
 
 export type Status =
   | "active"     // happening / in orbit now
@@ -36,41 +37,44 @@ export interface Entry {
   detail: string;
   orgs: OrgId[];
   sources: string[]; // ids into SOURCES
+  /** Optional sub-group within a job, e.g. "In orbit now" / "Upcoming crew flights". */
+  group?: string;
 }
 
+/** The 8 "jobs" on the home map. */
 export type FunctionId =
-  | "crews" | "upcoming-crew" | "stations" | "cargo" | "lunar"
-  | "launch-vehicles" | "megaconstellations" | "suborbital" | "commercial-stations";
+  | "flying-people" | "stations" | "cargo" | "moon"
+  | "launch" | "orbital-networks" | "suborbital" | "future-stations";
 
 export interface BriefingFunction { id: FunctionId; title: string; entries: Entry[]; }
 export interface Source { id: string; title: string; url: string; publisher: string; }
 
 export const ORGANIZATIONS: Organization[] = [
-  { id: "nasa", name: "NASA", country: "US", description: "US civil space agency; runs ISS operations, Artemis, CLPS and commercial station programs." },
-  { id: "spacex", name: "SpaceX", country: "US", description: "Builds Falcon 9/Heavy, Dragon and Starship; operates Starlink." },
-  { id: "blue-origin", name: "Blue Origin", country: "US", description: "Builds New Glenn, New Shepard and the Blue Moon lunar lander." },
-  { id: "esa", name: "ESA", country: "Europe", description: "European Space Agency; ISS partner and Artemis contributor." },
-  { id: "roscosmos", name: "Roscosmos", country: "Russia", description: "Russian state space corporation; flies Soyuz crew and Progress cargo ships." },
-  { id: "cnsa", name: "CNSA", country: "China", description: "China's national space agency; leads the Chang'e lunar program." },
-  { id: "cmsa", name: "China Manned Space Agency", country: "China", description: "China Manned Space Agency; runs Shenzhou crews and the Tiangong station." },
-  { id: "jaxa", name: "JAXA", country: "Japan", description: "Japan's space agency; HTV-X cargo ship and H3 rocket." },
-  { id: "csa", name: "Canadian Space Agency", country: "Canada", description: "Canadian Space Agency; ISS partner (Canadarm2) and Artemis contributor." },
-  { id: "isro", name: "ISRO", country: "India", description: "Indian Space Research Organisation; Chandrayaan lunar and Gaganyaan crew programs." },
-  { id: "axiom", name: "Axiom Space", country: "US", description: "Commercial company building Axiom Station modules and flying private astronaut missions." },
-  { id: "vast", name: "Vast", country: "US", description: "Commercial station company building Haven-1." },
-  { id: "starlab", name: "Starlab Space", country: "US", description: "Joint venture developing the Starlab commercial station." },
-  { id: "voyager", name: "Voyager Technologies", country: "US", description: "Voyager Technologies; leads the Starlab joint venture." },
-  { id: "boeing", name: "Boeing", country: "US", description: "Builds the Starliner crew capsule; ULA co-owner." },
-  { id: "rocket-lab", name: "Rocket Lab", country: "US/NZ", description: "Small launch provider (Electron) developing medium-lift Neutron." },
-  { id: "ula", name: "United Launch Alliance", country: "US", description: "United Launch Alliance; flies Atlas V and Vulcan Centaur." },
-  { id: "amazon", name: "Amazon (Leo)", country: "US", description: "Building the Amazon Leo (formerly Project Kuiper) broadband constellation." },
-  { id: "arianespace", name: "Arianespace", country: "Europe", description: "European launch operator flying Ariane 6." },
-  { id: "virgin-galactic", name: "Virgin Galactic", country: "US", description: "Suborbital spaceplane operator developing Delta-class ships." },
-  { id: "firefly", name: "Firefly Aerospace", country: "US", description: "Builds Alpha rocket and Blue Ghost lunar landers." },
-  { id: "intuitive-machines", name: "Intuitive Machines", country: "US", description: "Builds Nova-C lunar landers for NASA CLPS." },
-  { id: "astrobotic", name: "Astrobotic", country: "US", description: "Builds Peregrine/Griffin lunar landers for NASA CLPS." },
-  { id: "northrop-grumman", name: "Northrop Grumman", country: "US", description: "Builds the Cygnus ISS cargo spacecraft." },
-  { id: "sierra-space", name: "Sierra Space", country: "US", description: "Builds the Dream Chaser spaceplane; Orbital Reef partner." },
+  { id: "nasa", name: "NASA", country: "US", kind: "agency", website: "https://www.nasa.gov", description: "US civil space agency; runs ISS operations, Artemis, CLPS and commercial station programs." },
+  { id: "spacex", name: "SpaceX", country: "US", kind: "company", website: "https://www.spacex.com", description: "Builds Falcon 9/Heavy, Dragon and Starship; operates Starlink." },
+  { id: "blue-origin", name: "Blue Origin", country: "US", kind: "company", website: "https://www.blueorigin.com", description: "Builds New Glenn, New Shepard and the Blue Moon lunar lander." },
+  { id: "esa", name: "ESA", country: "Europe", kind: "agency", website: "https://www.esa.int", description: "European Space Agency; ISS partner and Artemis contributor." },
+  { id: "roscosmos", name: "Roscosmos", country: "Russia", kind: "agency", website: "https://www.roscosmos.ru", description: "Russian state space corporation; flies Soyuz crew and Progress cargo ships." },
+  { id: "cnsa", name: "CNSA", country: "China", kind: "agency", website: "https://www.cnsa.gov.cn/english/", description: "China's national space agency; leads the Chang'e lunar program." },
+  { id: "cmsa", name: "China Manned Space Agency", country: "China", kind: "agency", website: "https://www.cmse.gov.cn", description: "China Manned Space Agency; runs Shenzhou crews and the Tiangong station." },
+  { id: "jaxa", name: "JAXA", country: "Japan", kind: "agency", website: "https://global.jaxa.jp", description: "Japan's space agency; HTV-X cargo ship and H3 rocket." },
+  { id: "csa", name: "Canadian Space Agency", country: "Canada", kind: "agency", website: "https://www.asc-csa.gc.ca/eng/", description: "Canadian Space Agency; ISS partner (Canadarm2) and Artemis contributor." },
+  { id: "isro", name: "ISRO", country: "India", kind: "agency", website: "https://www.isro.gov.in", description: "Indian Space Research Organisation; Chandrayaan lunar and Gaganyaan crew programs." },
+  { id: "axiom", name: "Axiom Space", country: "US", kind: "company", website: "https://www.axiomspace.com", description: "Commercial company building Axiom Station modules and flying private astronaut missions." },
+  { id: "vast", name: "Vast", country: "US", kind: "company", website: "https://www.vastspace.com", description: "Commercial station company building Haven-1." },
+  { id: "starlab", name: "Starlab Space", country: "US", kind: "company", website: "https://starlab-space.com", description: "Joint venture developing the Starlab commercial station." },
+  { id: "voyager", name: "Voyager Technologies", country: "US", kind: "company", website: "https://voyagertechnologies.com", description: "Voyager Technologies; leads the Starlab joint venture." },
+  { id: "boeing", name: "Boeing", country: "US", kind: "company", website: "https://www.boeing.com/space", description: "Builds the Starliner crew capsule; ULA co-owner." },
+  { id: "rocket-lab", name: "Rocket Lab", country: "US/NZ", kind: "company", website: "https://www.rocketlabcorp.com", description: "Small launch provider (Electron) developing medium-lift Neutron." },
+  { id: "ula", name: "United Launch Alliance", country: "US", kind: "company", website: "https://www.ulalaunch.com", description: "United Launch Alliance; flies Atlas V and Vulcan Centaur." },
+  { id: "amazon", name: "Amazon (Leo)", country: "US", kind: "company", website: "https://www.aboutamazon.com/what-we-do/devices-services/amazon-leo", description: "Building the Amazon Leo (formerly Project Kuiper) broadband constellation." },
+  { id: "arianespace", name: "Arianespace", country: "Europe", kind: "company", website: "https://www.arianespace.com", description: "European launch operator flying Ariane 6." },
+  { id: "virgin-galactic", name: "Virgin Galactic", country: "US", kind: "company", website: "https://www.virgingalactic.com", description: "Suborbital spaceplane operator developing Delta-class ships." },
+  { id: "firefly", name: "Firefly Aerospace", country: "US", kind: "company", website: "https://fireflyspace.com", description: "Builds Alpha rocket and Blue Ghost lunar landers." },
+  { id: "intuitive-machines", name: "Intuitive Machines", country: "US", kind: "company", website: "https://www.intuitivemachines.com", description: "Builds Nova-C lunar landers for NASA CLPS." },
+  { id: "astrobotic", name: "Astrobotic", country: "US", kind: "company", website: "https://www.astrobotic.com", description: "Builds Peregrine/Griffin lunar landers for NASA CLPS." },
+  { id: "northrop-grumman", name: "Northrop Grumman", country: "US", kind: "company", website: "https://www.northropgrumman.com/space", description: "Builds the Cygnus ISS cargo spacecraft." },
+  { id: "sierra-space", name: "Sierra Space", country: "US", kind: "company", website: "https://www.sierraspace.com", description: "Builds the Dream Chaser spaceplane; Orbital Reef partner." },
 ];
 
 export const SOURCES: Source[] = [
@@ -89,7 +93,7 @@ export const SOURCES: Source[] = [
 ];
 
 export const FUNCTIONS: BriefingFunction[] = [
-  { id: "crews", title: "Crews in orbit", entries: [
+  { id: "flying-people", title: "Flying people", entries: [
     { id: "iss-crew13", title: "ISS — SpaceX Crew-13", status: "active", when: "Arrived Oct 1, 2026; stays to spring 2027",
       detail: "Jessica Watkins, Luke Delaney (NASA), Joshua Kutryk (CSA), Sergey Teteryatnikov (Roscosmos). Expedition 75.",
       orgs: ["nasa", "spacex", "csa", "roscosmos"], sources: ["nasa-crew13"] },
@@ -102,8 +106,7 @@ export const FUNCTIONS: BriefingFunction[] = [
     { id: "crew12-return", title: "Crew-12 splashdown", status: "complete", when: "Oct 8, 2026",
       detail: "Jessica Meir, Jack Hathaway (NASA), Sophie Adenot (ESA), Andrey Fedyaev (Roscosmos) returned.",
       orgs: ["nasa", "spacex", "esa", "roscosmos"], sources: ["nasa-vv", "nasa-crew13"] },
-  ]},
-  { id: "upcoming-crew", title: "Upcoming crew flights", entries: [
+  ].map((e) => ({ ...e, group: "In orbit now" } as Entry)).concat([
     { id: "starliner-1", title: "Boeing Starliner-1 (uncrewed)", status: "open", when: "~Dec 2026 / Jan 2027 (not firm)",
       detail: "Uncrewed cargo flight to ISS ahead of crewed certification.", orgs: ["boeing", "nasa", "ula"], sources: ["prior-brief"] },
     { id: "starliner-2", title: "Boeing Starliner-2 (crewed)", status: "open", when: "Mid-2028 (not firm)",
@@ -114,14 +117,14 @@ export const FUNCTIONS: BriefingFunction[] = [
     { id: "ms30", title: "Soyuz MS-30", status: "open", detail: "Next Soyuz rotation; follows MS-29 (return planned April 2027). No date verified.",
       orgs: ["roscosmos", "nasa"], sources: ["nasa-ms29"] },
     { id: "sz24", title: "Shenzhou-24", status: "open", detail: "Next Tiangong rotation; no date announced.", orgs: ["cmsa"], sources: ["xinhua-sz23"] },
-  ]},
+  ].map((e) => ({ ...e, group: "Upcoming crew flights" } as Entry)))},
   { id: "stations", title: "Stations", entries: [
     { id: "iss", title: "International Space Station", status: "active",
       detail: "Expedition 75. Attached as of Oct 9: Crew-13 Dragon, Soyuz MS-29, Progress 95 & 96. CRS-35 inbound.",
       orgs: ["nasa", "roscosmos", "esa", "jaxa", "csa"], sources: ["nasa-vv"] },
     { id: "tiangong", title: "Tiangong", status: "active", detail: "Crewed by Shenzhou-23.", orgs: ["cmsa"], sources: ["xinhua-sz23"] },
   ]},
-  { id: "cargo", title: "Cargo ships", entries: [
+  { id: "cargo", title: "Cargo", entries: [
     { id: "crs-35", title: "SpaceX CRS-35 (Cargo Dragon)", status: "scheduled", when: "Launched Oct 13, 5:33 AM CT; docks Oct 15 ~10 AM CT",
       detail: "Carries the last pair of iROSA solar arrays.", orgs: ["spacex", "nasa"], sources: ["nasa-vv", "prior-brief"] },
     { id: "progress", title: "Progress 95 & 96", status: "active", when: "P96 docked Sep 19, 2026",
@@ -134,7 +137,7 @@ export const FUNCTIONS: BriefingFunction[] = [
       detail: "First flight on ULA Vulcan; no primary-source date verified.", orgs: ["sierra-space", "ula", "nasa"], sources: [] },
     { id: "tianzhou", title: "Tianzhou (Tiangong cargo)", status: "open", detail: "Next Tianzhou not verified.", orgs: ["cmsa"], sources: [] },
   ]},
-  { id: "lunar", title: "Lunar & cislunar missions", entries: [
+  { id: "moon", title: "The Moon", entries: [
     { id: "griffin-1", title: "Astrobotic Griffin-1", status: "open", when: "NET late 2026 (possibly Dec)",
       detail: "Launches on Falcon Heavy (CLPS).", orgs: ["astrobotic", "spacex", "nasa"], sources: ["prior-brief"] },
     { id: "blue-moon-mk1", title: "Blue Moon MK1 pathfinder", status: "open", when: "Jan 2027 (target)",
@@ -149,7 +152,7 @@ export const FUNCTIONS: BriefingFunction[] = [
       orgs: ["firefly", "nasa", "esa"], sources: [] },
     { id: "chandrayaan", title: "ISRO lunar program", status: "open", detail: "Next Chandrayaan mission date not verified.", orgs: ["isro", "jaxa"], sources: [] },
   ]},
-  { id: "launch-vehicles", title: "Launch vehicles", entries: [
+  { id: "launch", title: "Launch", entries: [
     { id: "falcon", title: "Falcon 9 / Falcon Heavy", status: "flying", detail: "Launched CRS-35 Oct 13.", orgs: ["spacex"], sources: ["nasa-vv"] },
     { id: "starship", title: "Starship", status: "flying", when: "Flight 14: Sep 28, 2026",
       detail: "Flight 14 reached orbit and deployed 26 Starlink V3 satellites.", orgs: ["spacex"], sources: ["prior-brief"] },
@@ -162,19 +165,19 @@ export const FUNCTIONS: BriefingFunction[] = [
     { id: "electron-neutron", title: "Electron / Neutron", status: "open", detail: "Electron flying; Neutron debut date not verified.", orgs: ["rocket-lab"], sources: [] },
     { id: "h3", title: "H3", status: "flying", detail: "Launch vehicle for HTV-X.", orgs: ["jaxa"], sources: ["jaxa-schedule"] },
   ]},
-  { id: "megaconstellations", title: "Starlink & Amazon Leo", entries: [
+  { id: "orbital-networks", title: "Orbital networks", entries: [
     { id: "starlink", title: "Starlink", status: "active", detail: "V3 satellites now deploying from Starship (Flight 14: 26 V3).", orgs: ["spacex"], sources: ["prior-brief"] },
     { id: "amazon-leo", title: "Amazon Leo (formerly Project Kuiper)", status: "active", when: "Next: LE-04 NET Nov 23, 2026",
       detail: "396 satellites deployed across 14 launches (latest Jul 2). Initial service still planned for 2026, no date.",
       orgs: ["amazon", "arianespace", "ula", "spacex", "blue-origin"], sources: ["amazon-leo", "arianespace-le04"] },
   ]},
-  { id: "suborbital", title: "Suborbital human flight", entries: [
+  { id: "suborbital", title: "Suborbital flight", entries: [
     { id: "new-shepard", title: "Blue Origin New Shepard", status: "paused", when: "Paused ≥2 years from Jan 2026",
       detail: "Last flight NS-38 on Jan 22, 2026.", orgs: ["blue-origin"], sources: ["spacedaily-subo"] },
     { id: "vg-delta", title: "Virgin Galactic Delta", status: "open", when: "Commercial service targeted Feb 2027",
       detail: "Flight test (captive carry) planned to begin Oct 2026; second ship Mar 2027.", orgs: ["virgin-galactic"], sources: ["vg-q2"] },
   ]},
-  { id: "commercial-stations", title: "Commercial stations to follow the ISS", entries: [
+  { id: "future-stations", title: "Stations not in orbit yet", entries: [
     { id: "cld-rfp", title: "NASA Commercial LEO Destinations Phase 2", status: "open", when: "Final RFP Oct 9; proposals due Dec 8, 2026; awards ~Apr 15, 2027",
       detail: "Competition to succeed ISS.", orgs: ["nasa", "axiom", "vast", "starlab", "voyager", "blue-origin", "sierra-space"], sources: ["prior-brief"] },
     { id: "haven-1", title: "Vast Haven-1", status: "open", when: "Q1 2027", detail: "Single-module station, Falcon 9.", orgs: ["vast", "spacex"], sources: ["prior-brief"] },
@@ -215,3 +218,6 @@ export function validateBriefing(): string[] {
 export function rolesFor(id: OrgId) {
   return FUNCTIONS.map((f) => ({ fn: f, entries: f.entries.filter((e) => e.orgs.includes(id)) })).filter((r) => r.entries.length);
 }
+
+export const ALL_ENTRIES = FUNCTIONS.flatMap((f) => f.entries.map((e) => ({ ...e, fnId: f.id, fnTitle: f.title })));
+export const findEntry = (id: string) => ALL_ENTRIES.find((e) => e.id === id);

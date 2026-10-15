@@ -10,3 +10,14 @@ a{color:#8ab4ff}.sources{font-size:.85rem;padding-left:18px}.warn{background:#4a
 @media(max-width:520px){.grid{grid-template-columns:1fr}h1{font-size:1.6rem}}
 a.org{text-decoration:none}a.org:hover,a.org:focus{background:#2c3a66;color:#fff}.brand{color:inherit;text-decoration:none}
 a.org{padding:4px 9px;min-height:28px;display:inline-flex;align-items:center}
+header{max-width:1100px;margin:0 auto;padding:14px 16px 0}.nav{display:flex;justify-content:space-between;align-items:center;gap:8px}.nav .brand{font-size:1.6rem;font-weight:700;letter-spacing:.04em}
+.search{position:relative;margin:10px 0}.search input{width:100%;padding:10px 12px;font-size:16px;border-radius:8px;border:1px solid #2c3658;background:#131a30;color:inherit}
+.results{position:absolute;z-index:5;left:0;right:0;background:#131a30;border:1px solid #2c3658;border-radius:8px;max-height:60vh;overflow:auto;padding:4px}
+.hit{display:flex;gap:8px;align-items:center;padding:8px;color:inherit;text-decoration:none;border-radius:6px}.hit:hover,.hit:focus{background:#1e2742}
+.tag{font-size:.7rem;background:#1e2742;color:#9aa4bf;padding:1px 6px;border-radius:5px;white-space:nowrap}
+.jobs{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.jobs a{background:#1a2340;padding:5px 10px;border-radius:999px;text-decoration:none;font-size:.85rem}
+.group{margin:14px 0 8px;color:#9aa4bf;font-size:.85rem;text-transform:uppercase;letter-spacing:.06em}a.title{color:inherit;text-decoration:none}a.title:hover{text-decoration:underline}
+.facts{display:grid;grid-template-columns:max-content 1fr;gap:8px 16px}.facts dt{color:#9aa4bf}.facts dd{margin:0}
+.filters{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}select{background:#131a30;color:inherit;border:1px solid #2c3658;border-radius:6px;padding:6px;font-size:15px}
+.roster{list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}.ext{font-weight:600}
+@media(max-width:520px){.facts{grid-template-columns:1fr}.facts dt{margin-top:6px}}

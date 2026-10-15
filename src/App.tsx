@@ -1,96 +1,206 @@
-import { useEffect } from "react";
-import { Routes, Route, Link, useParams, useLocation } from "react-router-dom";
-import { rolesFor, type OrgId, FUNCTIONS, ORGANIZATIONS, SOURCES, LAST_UPDATE_ISO, nextWednesdayAfter, validateBriefing, type Status } from "./data/briefing";
+import { useEffect, useMemo, useState } from "react";
+import { Routes, Route, Link, useParams, useLocation, useSearchParams } from "react-router-dom";
+import {
+  FUNCTIONS, ORGANIZATIONS, SOURCES, LAST_UPDATE_ISO, ALL_ENTRIES, findEntry,
+  nextWednesdayAfter, validateBriefing, rolesFor, type Entry, type OrgId, type Status, type FunctionId,
+} from "./data/briefing";
 
 const orgName = new Map(ORGANIZATIONS.map((o) => [o.id, o.name]));
 const srcById = new Map(SOURCES.map((s) => [s.id, s]));
-const fmt = (iso: string) =>
-  new Date(iso + "T12:00:00Z").toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
-const fmtLong = (iso: string) =>
-  new Date(iso + "T12:00:00Z").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
-const LABEL: Record<Status, string> = { active: "Active", scheduled: "Scheduled", open: "Open", flying: "Flying", grounded: "Grounded", paused: "Paused", complete: "Complete" };
+const fmt = (iso: string, long = false) =>
+  new Date(iso + "T12:00:00Z").toLocaleDateString("en-US", {
+    weekday: long ? "long" : "short", month: long ? "long" : "short", day: "numeric", year: "numeric", timeZone: "UTC",
+  });
+const LABEL: Record<Status, string> = { active: "Active", scheduled: "Scheduled", open: "Date open", flying: "Flying", grounded: "Grounded", paused: "Paused", complete: "Complete" };
+/** Rows without a firm date (status "open") show "Date open". */
+const whenText = (e: Entry) => (e.status === "open" ? `Date open${e.when ? ` · ${e.when}` : ""}` : e.when);
+
+function useScrollTop(key: unknown) { useEffect(() => { window.scrollTo(0, 0); }, [key]); }
+
+function Chips({ orgs, except }: { orgs: OrgId[]; except?: string }) {
+  return <div className="orgs">{orgs.filter((o) => o !== except).map((o) => <Link key={o} to={`/org/${o}`} className="org">{orgName.get(o)}</Link>)}</div>;
+}
+
+function Card({ e, except }: { e: Entry; except?: string }) {
+  const w = whenText(e);
+  return (
+    <article className="card">
+      <div className="row">
+        <h3><Link to={`/activity/${e.id}`} className="title">{e.title}</Link></h3>
+        <span className={`pill s-${e.status}`}>{LABEL[e.status]}</span>
+      </div>
+      {w && <p className="when">{w}</p>}
+      <p>{e.detail}</p>
+      <Chips orgs={e.orgs} except={except} />
+    </article>
+  );
+}
+
+function Search() {
+  const [q, setQ] = useState("");
+  const t = q.trim().toLowerCase();
+  const res = useMemo(() => {
+    if (t.length < 2) return null;
+    const orgs = ORGANIZATIONS.filter((o) => (o.name + " " + o.id + " " + o.description).toLowerCase().includes(t));
+    const acts = ALL_ENTRIES.filter((e) => (e.title + " " + e.detail + " " + (e.when ?? "")).toLowerCase().includes(t));
+    return { orgs, acts };
+  }, [t]);
+  const { pathname } = useLocation();
+  useEffect(() => setQ(""), [pathname]);
+  return (
+    <div className="search">
+      <input type="search" placeholder="Search organizations and activities…" aria-label="Search" value={q} onChange={(e) => setQ(e.target.value)} />
+      {res && (
+        <div className="results" role="listbox">
+          {res.orgs.length + res.acts.length === 0 && <p className="note">No matches.</p>}
+          {res.orgs.map((o) => <Link key={o.id} to={`/org/${o.id}`} className="hit"><span className="tag">Org</span>{o.name}</Link>)}
+          {res.acts.map((e) => <Link key={e.id} to={`/activity/${e.id}`} className="hit"><span className="tag">{e.fnTitle}</span>{e.title}</Link>)}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Header() {
+  const next = nextWednesdayAfter(LAST_UPDATE_ISO);
+  return (
+    <header>
+      <nav className="nav"><Link to="/" className="brand">Meridian</Link><span><Link to="/">Map</Link> · <Link to="/roster">Roster</Link></span></nav>
+      <Search />
+      <div className="dates">
+        <span>Last update: <b>{fmt(LAST_UPDATE_ISO, true)}</b></span>
+        <span>Next update: <b>{fmt(next, true)}, 8:00 AM CT</b></span>
+      </div>
+    </header>
+  );
+}
 
 function Home() {
   const { hash } = useLocation();
   useEffect(() => { if (hash) document.getElementById(hash.slice(1))?.scrollIntoView(); else window.scrollTo(0, 0); }, [hash]);
   const problems = validateBriefing();
-  const next = nextWednesdayAfter(LAST_UPDATE_ISO);
   return (
     <main>
-      <header>
-        <h1><Link to="/" className="brand">Meridian</Link></h1>
-        <p className="sub">A map of current space travel activity — tap any organization to see all its roles.</p>
-        <div className="dates">
-          <span>Last update: <b>{fmtLong(LAST_UPDATE_ISO)}</b></span>
-          <span>Next update: <b>{fmtLong(next)}, 8:00 AM CT</b></span>
-        </div>
-        <p className="note">“Open” = no firm date. No launch dates are inferred.</p>
-      </header>
+      <p className="sub">A map of current space travel activity, in 8 jobs. Tap an organization to see every job it works, or an activity for its briefing.</p>
+      <p className="note">“Date open” = no firm date. No launch dates are inferred.</p>
       {problems.length > 0 && <div className="warn">Data validation: {problems.join("; ")}</div>}
-      {FUNCTIONS.map((f) => (
-        <section key={f.id} id={f.id}>
-          <h2>{f.title}</h2>
-          <div className="grid">
-            {f.entries.map((e) => (
-              <article key={e.id} className="card">
-                <div className="row">
-                  <h3>{e.title}</h3>
-                  <span className={`pill s-${e.status}`}>{LABEL[e.status]}</span>
-                </div>
-                {e.when && <p className="when">{e.when}</p>}
-                <p>{e.detail}</p>
-                <div className="orgs">{e.orgs.map((o) => <Link key={o} to={`/org/${o}`} className="org">{orgName.get(o)}</Link>)}</div>
-                {e.sources.length > 0 && (
-                  <p className="src">Sources: {e.sources.map((s, i) => { const x = srcById.get(s)!; return <span key={s}>{i > 0 && ", "}<a href={x.url} target="_blank" rel="noreferrer">{x.publisher}</a></span>; })}</p>
-                )}
-              </article>
+      <nav className="jobs">{FUNCTIONS.map((f) => <a key={f.id} href={`#${f.id}`}>{f.title}</a>)}</nav>
+      {FUNCTIONS.map((f) => {
+        const groups = [...new Set(f.entries.map((e) => e.group ?? ""))];
+        return (
+          <section key={f.id} id={f.id}>
+            <h2>{f.title}</h2>
+            {groups.map((g) => (
+              <div key={g}>
+                {g && <h4 className="group">{g}</h4>}
+                <div className="grid">{f.entries.filter((e) => (e.group ?? "") === g).map((e) => <Card key={e.id} e={e} />)}</div>
+              </div>
             ))}
-          </div>
-        </section>
-      ))}
-      <section>
-        <h2>Sources</h2>
-        <ul className="sources">{SOURCES.map((s) => <li key={s.id}><a href={s.url} target="_blank" rel="noreferrer">{s.title}</a> — {s.publisher}</li>)}</ul>
-      </section>
+          </section>
+        );
+      })}
+      <section id="sources"><h2>Sources</h2><SourceList ids={SOURCES.map((s) => s.id)} /></section>
     </main>
   );
 }
 
+function SourceList({ ids }: { ids: string[] }) {
+  if (!ids.length) return <p className="note">No primary source verified yet.</p>;
+  return <ul className="sources">{ids.map((id) => { const s = srcById.get(id)!; return <li key={id}><a href={s.url} target="_blank" rel="noreferrer">{s.title}</a> — {s.publisher}</li>; })}</ul>;
+}
+
 function OrgPage() {
   const { id } = useParams();
-  useEffect(() => { window.scrollTo(0, 0); }, [id]);
+  useScrollTop(id);
   const org = ORGANIZATIONS.find((o) => o.id === id);
   if (!org) return <main><p>Unknown organization.</p><Link to="/">← Back to map</Link></main>;
-  const roles = rolesFor(org.id as OrgId);
+  const roles = rolesFor(org.id);
   return (
     <main>
-      <p><Link to="/">← Back to map</Link></p>
+      <p><Link to="/">← Back to map</Link> · <Link to="/roster">Roster</Link></p>
       <h1>{org.name}</h1>
-      <p className="sub">{org.country}</p>
+      <p className="sub">{org.kind === "agency" ? "Agency" : "Company"} · {org.country}</p>
       <p>{org.description}</p>
-      <p className="note">Roles in {roles.length} function{roles.length === 1 ? "" : "s"} · data as of {fmt(LAST_UPDATE_ISO)}</p>
+      <p><a href={org.website} target="_blank" rel="noreferrer" className="ext">Official website ↗</a></p>
+      <p className="note">Works in {roles.length} job{roles.length === 1 ? "" : "s"}: {roles.map((r) => r.fn.title).join(", ")}</p>
       {roles.map(({ fn, entries }) => (
         <section key={fn.id}>
           <h2><Link to={`/#${fn.id}`}>{fn.title}</Link></h2>
-          <div className="grid">{entries.map((e) => (
-            <article key={e.id} className="card">
-              <div className="row"><h3>{e.title}</h3><span className={`pill s-${e.status}`}>{LABEL[e.status]}</span></div>
-              {e.when && <p className="when">{e.when}</p>}
-              <p>{e.detail}</p>
-              <div className="orgs">{e.orgs.filter((o) => o !== org.id).map((o) => <Link key={o} to={`/org/${o}`} className="org">{orgName.get(o)}</Link>)}</div>
-            </article>))}</div>
-        </section>))}
+          <div className="grid">{entries.map((e) => <Card key={e.id} e={e} except={org.id} />)}</div>
+        </section>
+      ))}
       <p><Link to="/">← Back to map</Link></p>
+    </main>
+  );
+}
+
+function ActivityPage() {
+  const { id } = useParams();
+  useScrollTop(id);
+  const e = id ? findEntry(id) : undefined;
+  if (!e) return <main><p>Unknown activity.</p><Link to="/">← Back to map</Link></main>;
+  return (
+    <main>
+      <p><Link to={`/#${e.fnId}`}>← {e.fnTitle}</Link></p>
+      <p className="sub">{e.fnTitle}{e.group ? ` · ${e.group}` : ""}</p>
+      <h1>{e.title}</h1>
+      <dl className="facts">
+        <dt>Status</dt><dd><span className={`pill s-${e.status}`}>{LABEL[e.status]}</span></dd>
+        <dt>Dates</dt><dd>{whenText(e) ?? "—"}</dd>
+        <dt>Details</dt><dd>{e.detail}</dd>
+        <dt>Organizations</dt><dd><Chips orgs={e.orgs} /></dd>
+        <dt>As of</dt><dd>{fmt(LAST_UPDATE_ISO, true)}</dd>
+      </dl>
+      <h2>Sources</h2>
+      <SourceList ids={e.sources} />
+    </main>
+  );
+}
+
+function Roster() {
+  useScrollTop("roster");
+  const [sp, setSp] = useSearchParams();
+  const kind = sp.get("kind") ?? "all";
+  const fn = (sp.get("fn") ?? "all") as FunctionId | "all";
+  const set = (k: string, v: string) => { const n = new URLSearchParams(sp); if (v === "all") n.delete(k); else n.set(k, v); setSp(n, { replace: true }); };
+  const list = ORGANIZATIONS.filter((o) => kind === "all" || o.kind === kind)
+    .map((o) => ({ o, roles: rolesFor(o.id) }))
+    .filter(({ roles }) => fn === "all" || roles.some((r) => r.fn.id === fn))
+    .sort((a, b) => a.o.name.localeCompare(b.o.name));
+  return (
+    <main>
+      <h1>Roster</h1>
+      <div className="filters">
+        <label>Type <select aria-label="Type" value={kind} onChange={(e) => set("kind", e.target.value)}>
+          <option value="all">All</option><option value="agency">Agencies</option><option value="company">Companies</option></select></label>
+        <label>Job <select aria-label="Job" value={fn} onChange={(e) => set("fn", e.target.value)}>
+          <option value="all">All jobs</option>{FUNCTIONS.map((f) => <option key={f.id} value={f.id}>{f.title}</option>)}</select></label>
+        <span className="note">{list.length} organizations</span>
+      </div>
+      <ul className="roster">
+        {list.map(({ o, roles }) => (
+          <li key={o.id} className="card">
+            <div className="row"><h3><Link to={`/org/${o.id}`} className="title">{o.name}</Link></h3><span className="tag">{o.kind === "agency" ? "Agency" : "Company"}</span></div>
+            <p>{o.description}</p>
+            <p className="note">{roles.map((r) => r.fn.title).join(" · ")}</p>
+          </li>
+        ))}
+      </ul>
     </main>
   );
 }
 
 export default function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/org/:id" element={<OrgPage />} />
-      <Route path="*" element={<Home />} />
-    </Routes>
+    <>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/org/:id" element={<OrgPage />} />
+        <Route path="/activity/:id" element={<ActivityPage />} />
+        <Route path="/roster" element={<Roster />} />
+        <Route path="*" element={<Home />} />
+      </Routes>
+    </>
   );
 }
