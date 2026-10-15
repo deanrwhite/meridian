@@ -6,7 +6,7 @@
 //     validateBriefing() also checks each org is used at least once.
 //  3. Use status "open" whenever no date is firm. Never invent launch dates.
 
-export const LAST_UPDATE_ISO = "2026-10-14";
+export const LAST_UPDATE_ISO = "2026-10-15";
 
 export const ORG_IDS = [
   "nasa", "spacex", "blue-origin", "esa", "roscosmos", "cnsa", "cmsa", "jaxa",
@@ -90,6 +90,7 @@ export const SOURCES: Source[] = [
   { id: "vg-q2", publisher: "Virgin Galactic", title: "Q2 2026 results and business update", url: "https://www.virgingalactic.com/news/virgin-galactic-announces-second-quarter-2026-financial-results-and-provides-business-update" },
   { id: "spacedaily-subo", publisher: "SpaceDaily", title: "Suborbital tourism: Blue Origin and Virgin Galactic pause", url: "https://spacedaily.com/t-suborbital-space-tourism-blue-origin-virgin-galactic-pause/" },
   { id: "prior-brief", publisher: "Meridian prior verified brief", title: "Previously verified weekly brief (Crew-12/13, CRS-35, Starliner, Starship, New Glenn, Artemis, CLD RFP, Haven-1, Axiom, Griffin-1, Blue Moon)", url: "https://www.nasa.gov/" },
+  { id: "nasa-crs35-dock", publisher: "NASA", title: "SpaceX Dragon Docks with Science, Supplies, and Roll-Out Solar Arrays (Oct 15, 2026)", url: "https://www.nasa.gov/blogs/spacestation/2026/10/15/spacex-dragon-docks-with-science-supplies-and-roll-out-solar-arrays/" },
 ];
 
 export const FUNCTIONS: BriefingFunction[] = [
@@ -120,13 +121,13 @@ export const FUNCTIONS: BriefingFunction[] = [
   ].map((e) => ({ ...e, group: "Upcoming crew flights" } as Entry)))},
   { id: "stations", title: "Stations", entries: [
     { id: "iss", title: "International Space Station", status: "active",
-      detail: "Expedition 75. Attached as of Oct 9: Crew-13 Dragon, Soyuz MS-29, Progress 95 & 96. CRS-35 inbound.",
-      orgs: ["nasa", "roscosmos", "esa", "jaxa", "csa"], sources: ["nasa-vv"] },
+      detail: "Expedition 75. Attached: Crew-13 Dragon, Soyuz MS-29, Progress 95 & 96, CRS-35 Cargo Dragon (Harmony zenith).",
+      orgs: ["nasa", "roscosmos", "esa", "jaxa", "csa"], sources: ["nasa-vv", "nasa-crs35-dock"] },
     { id: "tiangong", title: "Tiangong", status: "active", detail: "Crewed by Shenzhou-23.", orgs: ["cmsa"], sources: ["xinhua-sz23"] },
   ]},
   { id: "cargo", title: "Cargo", entries: [
-    { id: "crs-35", title: "SpaceX CRS-35 (Cargo Dragon)", status: "scheduled", when: "Launched Oct 13, 5:33 AM CT; docks Oct 15 ~10 AM CT",
-      detail: "Carries the last pair of iROSA solar arrays.", orgs: ["spacex", "nasa"], sources: ["nasa-vv", "prior-brief"] },
+    { id: "crs-35", title: "SpaceX CRS-35 (Cargo Dragon)", status: "active", when: "Launched Oct 13, 5:33 AM CT; docked Oct 15 ~10 AM CT",
+      detail: "Docked to Harmony space-facing port. Carries the last pair of iROSA solar arrays; stay through mid-November.", orgs: ["spacex", "nasa"], sources: ["nasa-crs35-dock", "nasa-vv"] },
     { id: "progress", title: "Progress 95 & 96", status: "active", when: "P96 docked Sep 19, 2026",
       detail: "Both attached to ISS.", orgs: ["roscosmos"], sources: ["nasa-vv"] },
     { id: "ng-24", title: "Cygnus NG-24", status: "complete", when: "Released Oct 9, 2026",
