@@ -6,6 +6,8 @@ const orgName = new Map(ORGANIZATIONS.map((o) => [o.id, o.name]));
 const srcById = new Map(SOURCES.map((s) => [s.id, s]));
 const fmt = (iso: string) =>
   new Date(iso + "T12:00:00Z").toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
+const fmtLong = (iso: string) =>
+  new Date(iso + "T12:00:00Z").toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
 const LABEL: Record<Status, string> = { active: "Active", scheduled: "Scheduled", open: "Open", flying: "Flying", grounded: "Grounded", paused: "Paused", complete: "Complete" };
 
 function Home() {
@@ -19,8 +21,8 @@ function Home() {
         <h1><Link to="/" className="brand">Meridian</Link></h1>
         <p className="sub">A map of current space travel activity — tap any organization to see all its roles.</p>
         <div className="dates">
-          <span>Last update: <b>{fmt(LAST_UPDATE_ISO)}</b></span>
-          <span>Next update: <b>{fmt(next)}</b></span>
+          <span>Last update: <b>{fmtLong(LAST_UPDATE_ISO)}</b></span>
+          <span>Next update: <b>{fmtLong(next)}, 8:00 AM CT</b></span>
         </div>
         <p className="note">“Open” = no firm date. No launch dates are inferred.</p>
       </header>
