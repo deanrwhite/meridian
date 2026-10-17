@@ -1,18 +1,29 @@
 import { defineConfig, type Plugin } from 'vite';
 import react from '@vitejs/plugin-react';
-import { copyFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+import { copyFileSync, mkdirSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
+import { ORGANIZATIONS, ALL_ENTRIES } from './src/data/briefing';
 
-// GitHub Pages SPA fallback: serve index.html for unknown deep links.
-const spa404 = (): Plugin => ({
-  name: 'spa-404',
+// GitHub Pages has no SPA rewrites. Emit a copy of index.html for every known route
+// (Pages serves /meridian/org/spacex from org/spacex.html with HTTP 200), and
+// 404.html as the fallback for anything else.
+const spaRoutes = (): Plugin => ({
+  name: 'spa-routes',
   apply: 'build',
-  closeBundle() { copyFileSync(resolve('dist/index.html'), resolve('dist/404.html')); },
+  closeBundle() {
+    const index = resolve('dist/index.html');
+    const routes = ['404', 'roster', ...ORGANIZATIONS.map((o) => `org/${o.id}`), ...ALL_ENTRIES.map((e) => `activity/${e.id}`)];
+    for (const r of routes) {
+      const out = resolve('dist', `${r}.html`);
+      mkdirSync(dirname(out), { recursive: true });
+      copyFileSync(index, out);
+    }
+  },
 });
 
-// Production builds are served from https://deanrwhite.github.io/meridian/; dev stays at '/'.
+// Production builds (and `vite preview`) are served from https://deanrwhite.github.io/meridian/; dev stays at '/'.
 export default defineConfig(({ command, isPreview }) => ({
   base: command === 'build' || isPreview ? '/meridian/' : '/',
-  plugins: [react(), spa404()],
+  plugins: [react(), spaRoutes()],
   server: { host: '0.0.0.0', port: 8080, strictPort: true },
 }));
