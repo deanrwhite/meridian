@@ -21,3 +21,4 @@ header{max-width:1100px;margin:0 auto;padding:14px 16px 0}.nav{display:flex;just
 .filters{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}select{background:#131a30;color:inherit;border:1px solid #2c3658;border-radius:6px;padding:6px;font-size:15px}
 .roster{list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}.ext{font-weight:600}
 @media(max-width:520px){.facts{grid-template-columns:1fr}.facts dt{margin-top:6px}}
+.distances ul{margin:6px 0;padding-left:18px;font-size:.9rem}.distances li{margin:2px 0}

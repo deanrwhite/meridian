@@ -1,6 +1,6 @@
 // Meridian service worker. Base-path aware: works at "/" and at "/meridian/".
 // Network-first for navigations (offline fallback to cached app shell), cache-first for assets.
-const CACHE = "meridian-v4";
+const CACHE = "meridian-v5";
 const BASE = new URL(self.registration.scope).pathname; // e.g. "/meridian/"
 const SHELL = BASE; // index.html served at the base path
 self.addEventListener("install", (e) => {

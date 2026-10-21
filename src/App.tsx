@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Routes, Route, Link, useParams, useLocation, useSearchParams } from "react-router-dom";
 import {
-  FUNCTIONS, ORGANIZATIONS, SOURCES, LAST_UPDATE_ISO, ALL_ENTRIES, findEntry,
+  FUNCTIONS, DEEP_SPACE, ORGANIZATIONS, SOURCES, LAST_UPDATE_ISO, ALL_ENTRIES, findEntry,
   nextWednesdayAfter, validateBriefing, rolesFor, type Entry, type OrgId, type Status, type FunctionId,
 } from "./data/briefing";
 
@@ -21,6 +21,17 @@ function Chips({ orgs, except }: { orgs: OrgId[]; except?: string }) {
   return <div className="orgs">{orgs.filter((o) => o !== except).map((o) => <Link key={o} to={`/org/${o}`} className="org">{orgName.get(o)}</Link>)}</div>;
 }
 
+const nf = (n: number) => n.toLocaleString("en-US");
+function Distances({ e }: { e: Entry }) {
+  if (!e.distances?.length) return null;
+  return (
+    <div className="distances">
+      <ul>{e.distances.map((d) => <li key={d.from}>From {d.from}: <b>{nf(d.km)} km</b> · {d.au.toFixed(2)} AU · {nf(d.mi)} mi</li>)}</ul>
+      {e.distancesAsOf && <p className="note">As of {e.distancesAsOf} · JPL Horizons</p>}
+    </div>
+  );
+}
+
 function Card({ e, except }: { e: Entry; except?: string }) {
   const w = whenText(e);
   return (
@@ -31,6 +42,7 @@ function Card({ e, except }: { e: Entry; except?: string }) {
       </div>
       {w && <p className="when">{w}</p>}
       <p>{e.detail}</p>
+      <Distances e={e} />
       <Chips orgs={e.orgs} except={except} />
     </article>
   );
@@ -84,7 +96,7 @@ function Home() {
       <p className="sub">A map of current space travel activity, in 8 jobs. Tap an organization to see every job it works, or an activity for its briefing.</p>
       <p className="note">“Date open” = no firm date. No launch dates are inferred.</p>
       {problems.length > 0 && <div className="warn">Data validation: {problems.join("; ")}</div>}
-      <nav className="jobs">{FUNCTIONS.map((f) => <a key={f.id} href={`#${f.id}`}>{f.title}</a>)}</nav>
+      <nav className="jobs">{FUNCTIONS.map((f) => <a key={f.id} href={`#${f.id}`}>{f.title}</a>)}<a href={`#${DEEP_SPACE.id}`}>{DEEP_SPACE.title}</a></nav>
       {FUNCTIONS.map((f) => {
         const groups = [...new Set(f.entries.map((e) => e.group ?? ""))];
         return (
@@ -99,6 +111,11 @@ function Home() {
           </section>
         );
       })}
+      <section id={DEEP_SPACE.id}>
+        <h2>{DEEP_SPACE.title}</h2>
+        <p className="note">Beyond the 8 jobs: NASA's twin Voyagers, the farthest spacecraft. Distances update each edition.</p>
+        <div className="grid">{DEEP_SPACE.entries.map((e) => <Card key={e.id} e={e} />)}</div>
+      </section>
       <section id="sources"><h2>Sources</h2><SourceList ids={SOURCES.map((s) => s.id)} /></section>
     </main>
   );
@@ -148,6 +165,7 @@ function ActivityPage() {
         <dt>Status</dt><dd><span className={`pill s-${e.status}`}>{LABEL[e.status]}</span></dd>
         <dt>Dates</dt><dd>{whenText(e) ?? "—"}</dd>
         <dt>Details</dt><dd>{e.detail}</dd>
+        {e.distances && <><dt>Distance</dt><dd><Distances e={e} /></dd></>}
         <dt>Organizations</dt><dd><Chips orgs={e.orgs} /></dd>
         <dt>As of</dt><dd>{fmt(LAST_UPDATE_ISO, true)}</dd>
       </dl>
