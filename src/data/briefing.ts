@@ -6,7 +6,7 @@
 //     validateBriefing() also checks each org is used at least once.
 //  3. Use status "open" whenever no date is firm. Never invent launch dates.
 
-export const LAST_UPDATE_ISO = "2026-10-28";
+export const LAST_UPDATE_ISO = "2026-11-04";
 
 export const ORG_IDS = [
   "nasa", "spacex", "blue-origin", "esa", "roscosmos", "cnsa", "cmsa", "jaxa",
@@ -90,7 +90,7 @@ export const SOURCES: Source[] = [
   { id: "jaxa-schedule", publisher: "JAXA", title: "JAXA Launch Schedule", url: "https://global.jaxa.jp/projects/in_progress.html" },
   { id: "xinhua-sz23", publisher: "Xinhua", title: "Shenzhou-23 astronauts send National Day greetings (Oct 1, 2026)", url: "https://english.news.cn/20261001/1974e2fe956844f5a75713fbea2f9d99/c.html" },
   { id: "reuters-ce7", publisher: "Reuters", title: "China postpones Chang'e-7 lunar mission (Aug 23, 2026)", url: "https://www.reuters.com/science/china-postpones-change-7-lunar-mission-2026-08-23/" },
-  { id: "amazon-leo", publisher: "Amazon", title: "Amazon Leo mission updates (updated Oct 14, 2026)", url: "https://www.aboutamazon.com/news/innovation-at-amazon/project-kuiper-satellite-rocket-launch-progress-updates" },
+  { id: "amazon-leo", publisher: "Amazon", title: "Amazon Leo mission updates (LV-01 on Vulcan targeted Nov 13, 2026)", url: "https://www.aboutamazon.com/news/innovation-at-amazon/project-kuiper-satellite-rocket-launch-progress-updates" },
   { id: "arianespace-le04", publisher: "Arianespace", title: "Arianespace to launch 36 Amazon Leo satellites NET Nov 23", url: "https://newsroom.arianespace.com/arianespace-to-launch-36-amazon-leo-satellites-on-november-23-at-the-earliest-for-10th-ariane-6-flight/" },
   { id: "vg-q2", publisher: "Virgin Galactic", title: "Q2 2026 results and business update", url: "https://www.virgingalactic.com/news/virgin-galactic-announces-second-quarter-2026-financial-results-and-provides-business-update" },
   { id: "spacedaily-subo", publisher: "SpaceDaily", title: "Suborbital tourism: Blue Origin and Virgin Galactic pause", url: "https://spacedaily.com/t-suborbital-space-tourism-blue-origin-virgin-galactic-pause/" },
@@ -117,7 +117,7 @@ export const SOURCES: Source[] = [
   { id: "voyager-starlab", publisher: "Voyager Technologies", title: "Starlab Space Station", url: "https://voyagertechnologies.com/starlab/" },
   { id: "nasa-cldc", publisher: "NASA", title: "Commercial LEO Destination Contract (CLDC) procurement page", url: "https://www.nasa.gov/johnson/jsc-procurement/cldc/" },
   { id: "samgov-cldc", publisher: "SAM.gov", title: "CLDC final RFP 80JSC026R0021 (questions due Oct 21, 2026, 1:00 PM CT)", url: "https://sam.gov/workspace/contract/opp/aee4374189ab4118b3ec0dcb00ae8408/view" },
-  { id: "jpl-horizons", publisher: "NASA JPL", title: "JPL Horizons ephemeris API (Voyager 1 = -31, Voyager 2 = -32; observer range at 2026-10-28 13:00 UTC)", url: "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND='-31'&EPHEM_TYPE='OBSERVER'&CENTER='500@399'&START_TIME='2026-10-28%2013:00'&STOP_TIME='2026-10-28%2014:00'&STEP_SIZE='1h'&QUANTITIES='20'" },
+  { id: "jpl-horizons", publisher: "NASA JPL", title: "JPL Horizons ephemeris API (Voyager 1 = -31, Voyager 2 = -32; observer range at 2026-11-04 14:00 UTC)", url: "https://ssd.jpl.nasa.gov/api/horizons.api?format=text&COMMAND='-31'&EPHEM_TYPE='OBSERVER'&CENTER='500@399'&START_TIME='2026-11-04%2014:00'&STOP_TIME='2026-11-04%2015:00'&STEP_SIZE='1h'&QUANTITIES='20'" },
   { id: "nasa-voyager-where", publisher: "NASA", title: "Where Are Voyager 1 and Voyager 2 Now? (live tracker)", url: "https://science.nasa.gov/mission/voyager/where-are-voyager-1-and-voyager-2-now/" },
   { id: "nasa-artemis3-ops", publisher: "NASA", title: "NASA's Artemis III Mission to Test Future Moon Lander Operations (Oct 23, 2026)", url: "https://www.nasa.gov/missions/artemis/nasas-artemis-iii-mission-to-test-future-moon-lander-operations/" },
   { id: "nasa-artemis3-crew", publisher: "NASA", title: "Our Artemis III Crew", url: "https://www.nasa.gov/our-artemis-iii-crew/" },
@@ -133,14 +133,30 @@ export const SOURCES: Source[] = [
   { id: "sfn-starliner", publisher: "Spaceflight Now", title: "NASA plans unpiloted Starliner test flight at end of year (Sep 29, 2026)", url: "https://spaceflightnow.com/2026/09/29/nasa-plans-unpiloted-starliner-test-flight-at-end-of-year/" },
   { id: "pib-isro", publisher: "PIB (Govt. of India)", title: "Parliament question: ISRO's upcoming missions and Gaganyaan programme (Dec 11, 2025)", url: "https://www.pib.gov.in/PressReleseDetailm.aspx?PRID=2202454" },
   { id: "uni-gaganyaan", publisher: "UNI India", title: "Gaganyaan first test flight in 2 months: ISRO Chief (Oct 24, 2026)", url: "https://www.uniindia.com/south-india/space-gaganyaan-test-flight-isro-chief/224116" },
+  { id: "nasa-blog-1102", publisher: "NASA", title: "Week Starts with Spacewalk Preps and Life Science (Nov 2, 2026; spacewalk 101 start 8:30 a.m. EST Thu Nov 5)", url: "https://www.nasa.gov/blogs/spacestation/2026/11/02/week-starts-with-spacewalk-preps-and-life-science/" },
+  { id: "csa-eva-1105", publisher: "Canadian Space Agency", title: "Crew-13: Second spacewalk for Joshua Kutryk (Nov 5, 2026; first spacewalk Oct 29 lasted 7 h 11 min)", url: "https://www.asc-csa.gc.ca/eng/events/2026/2026-11-05-crew-13-second-spacewalk-joshua-kutryk-outside-international-space-station.asp" },
+  { id: "nasa-ng-crs25", publisher: "NASA", title: "NASA Invites Media to Northrop Grumman CRS-25 Station Resupply Launch (Nov 2, 2026)", url: "https://www.nasa.gov/news-release/nasa-invites-media-to-northrop-grumman-crs-25-station-resupply-launch/" },
+  { id: "nasa-progress97", publisher: "NASA", title: "Roscosmos Progress 97 event page (NET fall 2026)", url: "https://www.nasa.gov/event/roscosmos-progress-97/" },
+  { id: "ula-leo1", publisher: "ULA", title: "Vulcan Leo 1 mission page (Nov 13, 12:54 p.m. EST)", url: "https://www.ulalaunch.com/missions/next-launch/vulcan-leo-1" },
+  { id: "starlust-s15", publisher: "Starlust", title: "Starship Flight 15: FAA planning date Nov 12, pending regulatory approval", url: "https://starlust.org/spacex-starship-flight-15-possible-launch-date-revealed/" },
+  { id: "techtimes-s15", publisher: "Tech Times", title: "SpaceX finishes Starship Flight 15 static fires; first ship catch awaits FAA (Oct 30, 2026)", url: "https://www.techtimes.com/articles/329778/20261030/spacex-finishes-starship-flight-15-static-fire-first-ship-catch-attempt-awaits-faa.htm" },
+  { id: "nasa-a3-core", publisher: "NASA", title: "Artemis III SLS Core Stage Joins Boosters at Kennedy (Oct 28, 2026)", url: "https://www.nasa.gov/image-article/artemis-iii-sls-core-stage-joins-boosters-at-kennedy/" },
+  { id: "usat-isaacman", publisher: "USA Today / Florida Today", title: "NASA chief Jared Isaacman says Artemis III 'must fly' in 2027 (Oct 29, 2026)", url: "https://www.usatoday.com/story/news/nation/2026/10/29/nasa-administrator-jared-isaacman-artemis-moon/92496332007/" },
+  { id: "nasa-clps2", publisher: "NASA", title: "CLPS 2.0 procurement page (preliminary schedule: award Nov 7, 2026)", url: "https://www.nasa.gov/johnson/jsc-procurement/clps2/" },
+  { id: "chinadaily-lunar-plan", publisher: "China Daily", title: "China reveals detailed plan for manned lunar mission (Nov 2, 2026)", url: "https://www.chinadaily.com.cn/a/202611/02/WS6ae8aed0e4b06d4aa0566913.html" },
+  { id: "cgtn-cmsa-lunar", publisher: "CGTN", title: "CMSA: Lunar-landing phase of exploration program advancing steadily (Nov 1, 2026)", url: "https://news.cgtn.com/news/2026-11-01/CMSA-Lunar-landing-phase-of-exploration-program-advancing-steadily-1RHhZPPs4iA/p.html" },
+  { id: "voyager-q3", publisher: "Voyager Technologies", title: "Voyager Reports Record Third Quarter 2026 Results (Nov 2, 2026; Griffin-1 late-2026 launch)", url: "https://investors.voyagertechnologies.com/news/news-details/2026/Voyager-Reports-Record-Third-Quarter-2026-Revenue-Bookings-and-Backlog/default.aspx" },
+  { id: "vg-apeiron-home", publisher: "Virgin Galactic", title: "Virgin Galactic's Spaceship Apeiron Arrives Home to Spaceport America (Oct 28, 2026)", url: "https://www.virgingalactic.com/news/virgin-galactics-spaceship-apeiron-arrives-home-to-spaceport-america" },
+  { id: "vg-q3-date", publisher: "Virgin Galactic", title: "Virgin Galactic to report Q3 2026 results Nov 12, 2026", url: "https://investors.virgingalactic.com/news/news-details/2026/Virgin-Galactic-Announces-Date-of-Third-Quarter-2026-Financial-Results-and-Conference-Call/default.aspx" },
+  { id: "spo-china-lunar", publisher: "SpacePolicyOnline", title: "China Plans \"Two Launches, Lunar Orbit Rendezvous\" to Land Taikonauts on Moon", url: "https://spacepolicyonline.com/news/china-plans-two-launches-lunar-orbit-rendezvous-to-land-taikonauts-on-moon/" },
   { id: "nasa-crs35-dock", publisher: "NASA", title: "SpaceX Dragon Docks with Science, Supplies, and Roll-Out Solar Arrays (Oct 15, 2026)", url: "https://www.nasa.gov/blogs/spacestation/2026/10/15/spacex-dragon-docks-with-science-supplies-and-roll-out-solar-arrays/" },
 ];
 
 export const FUNCTIONS: BriefingFunction[] = [
   { id: "flying-people", title: "Flying people", entries: [
     { id: "iss-crew13", title: "ISS — SpaceX Crew-13", status: "active", when: "Arrived Oct 1, 2026; return planned April 2027 (SpaceX)",
-      detail: "Jessica Watkins, Luke Delaney (NASA), Joshua Kutryk (CSA), Sergey Teteryatnikov (Roscosmos). Expedition 75. Kutryk joins Anil Menon for US spacewalks 100 (Thu Oct 29, 7:00 AM CT) and 101 (Nov 5) — his first spacewalk; Watkins and Delaney support from inside.",
-      orgs: ["nasa", "spacex", "csa", "roscosmos"], sources: ["nasa-crew13", "nasa-eva100-101", "nasa-blog-1026", "spacex-launches"] },
+      detail: "Jessica Watkins, Luke Delaney (NASA), Joshua Kutryk (CSA), Sergey Teteryatnikov (Roscosmos). Expedition 75. Kutryk and Anil Menon completed US spacewalk 100 on Oct 29 (7 h 11 min; Kutryk's first) and go out again for spacewalk 101 on Thu Nov 5, planned start 8:30 a.m. EST (7:30 AM CT); Watkins and Delaney support from inside.",
+      orgs: ["nasa", "spacex", "csa", "roscosmos"], sources: ["nasa-crew13", "nasa-blog-1102", "csa-eva-1105", "spacex-launches"] },
     { id: "iss-ms29", title: "ISS — Soyuz MS-29", status: "active", when: "Docked Jul 14, 2026; return planned April 2027",
       detail: "Anil Menon (NASA), Pyotr Dubrov, Anna Kikina (Roscosmos). Seven people aboard ISS after Crew-12's departure.",
       orgs: ["roscosmos", "nasa"], sources: ["nasa-ms29", "nasa-vv"] },
@@ -156,8 +172,8 @@ export const FUNCTIONS: BriefingFunction[] = [
     { id: "starliner-2", title: "Boeing Starliner-2 (crewed)", status: "open", when: "Mid-2028 (not firm)",
       detail: "First crewed rotation-class Starliner flight; NASA's Warren \"Woody\" Hoburg named commander, rest of crew not yet named.", orgs: ["boeing", "nasa", "ula"], sources: ["sfn-starliner"] },
     { id: "artemis-3", title: "Artemis III — LEO docking test", status: "open", when: "2027 (NASA targeting summer 2027; no date)",
-      detail: "Crew named Oct 23: Randy Bresnik (commander), Luca Parmitano (ESA, pilot), Andre Douglas and Frank Rubio (mission specialists). Planned 14-day Orion flight in low Earth orbit (up to 17): docks with a Blue Moon MK2 test article (crew goes aboard for ~2 days), then a ~2-hour docking with a Starship V3 test article launched later. Isaacman said last month the mission was ~90 days behind schedule. SLS boosters fully stacked; core stage next joins them in the \"short stack.\"",
-      orgs: ["nasa", "spacex", "blue-origin", "esa"], sources: ["nasa-artemis3-ops", "nasa-artemis3-crew", "space-artemis3", "nasa-a3-boosters"] },
+      detail: "Crew named Oct 23: Randy Bresnik (commander), Luca Parmitano (ESA, pilot), Andre Douglas and Frank Rubio (mission specialists). Planned 14-day Orion flight in low Earth orbit (up to 17): docks with a Blue Moon MK2 test article (crew goes aboard for ~2 days), then a ~2-hour docking with a Starship V3 test article launched later. Isaacman said last month the mission was ~90 days behind schedule. SLS core stage was stacked between the boosters on Oct 28 (\"short stack\"); after checkouts it rolls to Pad 39B for a core-stage tanking test (no date). Isaacman (Oct 29): Artemis III \"must fly\" in 2027.",
+      orgs: ["nasa", "spacex", "blue-origin", "esa"], sources: ["nasa-artemis3-ops", "nasa-artemis3-crew", "space-artemis3", "nasa-a3-core", "usat-isaacman"] },
     { id: "ms30", title: "Soyuz MS-30", status: "open", when: "March 2027 (Cosmonaut Training Center; no exact date)",
       detail: "Dmitry Petelin, Konstantin Borisov (Roscosmos), Deniz Burnham (NASA). Replaces MS-29.",
       orgs: ["roscosmos", "nasa"], sources: ["interfax-ms30", "nasa-ms29"] },
@@ -170,17 +186,19 @@ export const FUNCTIONS: BriefingFunction[] = [
   ].map((e) => ({ ...e, group: "Upcoming crew flights" } as Entry)))},
   { id: "stations", title: "Stations", entries: [
     { id: "iss", title: "International Space Station", status: "active",
-      detail: "Expedition 75, seven aboard. Attached: Crew-13 Dragon, Soyuz MS-29, Progress 95 & 96, CRS-35 Cargo Dragon (Harmony zenith). US spacewalk 100 (Thu Oct 29, 7:00 AM CT, ~6h45m; NASA+ from 5:30 AM CT) and 101 (Thu Nov 5): Menon and Kutryk install the 7th (port, 2A) and 8th (final, starboard, 3B) IROSA solar arrays, raising capacity from 160 kW to ~215 kW.",
-      orgs: ["nasa", "roscosmos", "esa", "jaxa", "csa"], sources: ["nasa-vv", "nasa-crs35-dock", "nasa-eva100-101", "nasa-blog-1026"] },
+      detail: "Expedition 75, seven aboard. Attached: Crew-13 Dragon, Soyuz MS-29, Progress 95 & 96, CRS-35 Cargo Dragon (Harmony zenith). Seventh IROSA solar array installed on the port truss (2A) during spacewalk 100 on Oct 29. Spacewalk 101 on Thu Nov 5 (start 8:30 a.m. EST / 7:30 AM CT, ~7 h; NASA+ coverage from 7 a.m. EST / 6:00 AM CT): Menon and Kutryk install the 8th and final array on the starboard truss (3B), raising capacity from 160 kW to ~215 kW. Next arrival: Cygnus XL NG-25 (NET Nov 29).",
+      orgs: ["nasa", "roscosmos", "esa", "jaxa", "csa", "northrop-grumman"], sources: ["nasa-vv", "nasa-crs35-dock", "nasa-eva100-101", "nasa-blog-1102", "csa-eva-1105", "nasa-ng-crs25"] },
     { id: "tiangong", title: "Tiangong", status: "active", detail: "Crewed by Shenzhou-23.", orgs: ["cmsa"], sources: ["xinhua-sz23"] },
   ]},
   { id: "cargo", title: "Cargo", entries: [
     { id: "crs-35", title: "SpaceX CRS-35 (Cargo Dragon)", status: "active", when: "Launched Oct 13, 5:33 AM CT; docked Oct 15 ~10 AM CT",
-      detail: "Docked to Harmony space-facing port. Delivered the last pair of IROSA solar arrays (spacewalks Oct 29 and Nov 5); SpaceX lists its return for November 2026 (no date).", orgs: ["spacex", "nasa"], sources: ["nasa-crs35-dock", "nasa-vv", "nasa-eva100-101", "spacex-launches"] },
+      detail: "Docked to Harmony space-facing port. Delivered the last pair of IROSA solar arrays (7th installed Oct 29; 8th on spacewalk Nov 5); SpaceX lists its return for November 2026 (no date).", orgs: ["spacex", "nasa"], sources: ["nasa-crs35-dock", "nasa-vv", "nasa-eva100-101", "spacex-launches"] },
     { id: "progress", title: "Progress 95 & 96", status: "active", when: "P96 docked Sep 19, 2026",
-      detail: "Both attached to ISS.", orgs: ["roscosmos"], sources: ["nasa-vv"] },
+      detail: "Both attached to ISS. Next: Progress 97 from Baikonur — NASA lists \"no earlier than fall 2026\"; launch trackers show Nov 24 but Roscosmos has not confirmed a date.", orgs: ["roscosmos"], sources: ["nasa-vv", "nasa-progress97"] },
     { id: "ng-24", title: "Cygnus NG-24", status: "complete", when: "Released Oct 9, 2026",
-      detail: "Next Cygnus, NG-25 on a SpaceX Falcon 9, is listed by launch trackers for November with no date set.", orgs: ["northrop-grumman", "nasa", "spacex"], sources: ["nasa-vv", "scw-oct-launches"] },
+      detail: "Cygnus XL departed after a nearly six-month stay at Unity.", orgs: ["northrop-grumman", "nasa"], sources: ["nasa-vv", "nasa-ng-crs25"] },
+    { id: "ng-25", title: "Cygnus XL NG-25 (NASA NG CRS-25)", status: "scheduled", when: "NET Sun Nov 29, 2026, 10:49 a.m. EST (9:49 AM CT)",
+      detail: "Launches on a SpaceX Falcon 9 from SLC-40, Cape Canaveral. Canadarm2 will capture it and berth it to Unity's Earth-facing port; planned to stay until May 2027.", orgs: ["northrop-grumman", "nasa", "spacex"], sources: ["nasa-ng-crs25"] },
     { id: "htv-x2", title: "JAXA HTV-X2", status: "open", when: "NASA: NET Sep 2026; JAXA: FY2026 or later",
       detail: "H3 from Tanegashima. No firm date.", orgs: ["jaxa", "nasa"], sources: ["nasa-htvx2", "jaxa-schedule"] },
     { id: "dream-chaser", title: "Sierra Space Dream Chaser", status: "open", when: "Company target: year-end 2026 (not firm)",
@@ -189,13 +207,13 @@ export const FUNCTIONS: BriefingFunction[] = [
       detail: "Docked at Tianhe aft port with ~6.2 t of supplies; planned to stay about 12 months. Next Tianzhou not dated.", orgs: ["cmsa"], sources: ["cmse-tz10"] },
   ]},
   { id: "moon", title: "The Moon", entries: [
-    { id: "griffin-1", title: "Astrobotic Griffin-1", status: "open", when: "Targeted late 2026",
+    { id: "griffin-1", title: "Astrobotic Griffin-1", status: "open", when: "Targeted late 2026 (Voyager, Nov 2); NASA talk slides in mid-October reportedly showed NET Jan 2027",
       detail: "Completed acceptance testing (Oct 13); returning to Pittsburgh before shipping to Cape Canaveral. Falcon Heavy (CLPS), 10 payloads incl. Astrolab FLIP rover, to Mons Mouton near the south pole. Astrobotic is now part of Voyager Technologies (acquired July 2026).",
-      orgs: ["astrobotic", "voyager", "spacex", "nasa", "esa"], sources: ["voyager-griffin1", "aiaa-moonbase"] },
+      orgs: ["astrobotic", "voyager", "spacex", "nasa", "esa"], sources: ["voyager-q3", "voyager-griffin1", "aiaa-moonbase"] },
     { id: "blue-moon-mk1", title: "Blue Moon MK1 pathfinder", status: "open", when: "Early 2027 (target)",
       detail: "\"Endurance\" is assembled; depends on New Glenn return to flight.", orgs: ["blue-origin", "nasa"], sources: ["aiaa-moonbase", "prior-brief"] },
     { id: "artemis-3-l", title: "Artemis III (LEO docking test)", status: "open", when: "2027 (NASA targeting summer 2027)",
-      detail: "Tests Orion docking with both HLS test articles in LEO before crewed landings near the south pole in 2028, starting with Artemis IV. NASA has not yet chosen which lander flies Artemis IV; both providers plan lunar landing missions in 2028. Both landers must first make uncrewed lunar landing demos.", orgs: ["nasa", "spacex", "blue-origin"], sources: ["nasa-artemis3-ops", "space-artemis3", "nasa-hls-iac"] },
+      detail: "Tests Orion docking with both HLS test articles in LEO before crewed landings near the south pole in 2028, starting with Artemis IV. NASA has not yet chosen which lander flies Artemis IV; both providers plan lunar landing missions in 2028. Both landers must first make uncrewed lunar landing demos. SLS core stage and boosters stacked Oct 28; pad tanking test next.", orgs: ["nasa", "spacex", "blue-origin"], sources: ["nasa-artemis3-ops", "space-artemis3", "nasa-hls-iac", "nasa-a3-core"] },
     { id: "change-7", title: "Chang'e-7 (lunar south pole)", status: "open", when: "Postponed Aug 23, 2026; partners cite early 2027",
       detail: "China said it could not fly in its 2026 window; no official new date. Long March 5 has arrived at Wenchang.", orgs: ["cnsa"], sources: ["cnsa-ce7", "reuters-ce7", "chinadaily-ce7-lm5"] },
     { id: "im-next", title: "Intuitive Machines IM-3 (Nova-C \"Trinity\")", status: "open", when: "First part of 2027 (CEO: Q1 2027)",
@@ -204,15 +222,19 @@ export const FUNCTIONS: BriefingFunction[] = [
       orgs: ["firefly", "nasa", "esa"], sources: ["aiaa-moonbase"] },
     { id: "chandrayaan", title: "ISRO lunar program (Chandrayaan-4 / -5)", status: "open", when: "Chandrayaan-4: 2027 (planned timeline; no date)",
       detail: "Chandrayaan-4 is a south-polar sample-return mission. Chandrayaan-5 (LUPEX) pairs an ISRO lander with a JAXA rover on a JAXA launcher; no date verified.", orgs: ["isro", "jaxa"], sources: ["pib-isro"] },
+    { id: "clps-2", title: "NASA CLPS 2.0 lunar delivery contract", status: "open", when: "Award planned Nov 7, 2026 (NASA preliminary schedule; moved three times since September)",
+      detail: "Follow-on multiple-award contract for commercial deliveries to the lunar surface and orbit, targeted to be capped at $6 billion. Proposals were due Jun 30; individual missions are ordered later as task orders.", orgs: ["nasa"], sources: ["nasa-clps2"] },
+    { id: "china-crewed-lunar", title: "China crewed lunar landing (Mengzhou + Lanyue)", status: "open", when: "No official dates; uncrewed test flights come first",
+      detail: "Plan detailed at the 7th Manned Space Symposium (Oct 31–Nov 1): two Long March 10 launches from Wenchang put the Lanyue lander and Mengzhou crew ship in lunar orbit, where they dock; two astronauts land and drive a Tansuo rover while the third stays in orbit. CMSA says upcoming steps include a Long March 10 verification flight and first flights of Mengzhou and Lanyue.", orgs: ["cmsa"], sources: ["chinadaily-lunar-plan", "cgtn-cmsa-lunar", "spo-china-lunar"] },
   ]},
   { id: "launch", title: "Launch", entries: [
     { id: "falcon", title: "Falcon 9 / Falcon Heavy", status: "flying", detail: "Launched CRS-35 Oct 13; Falcon Heavy flew NROL-97 Oct 1.", orgs: ["spacex"], sources: ["nasa-vv"] },
-    { id: "starship", title: "Starship", status: "flying", when: "Flight 14: Sep 28, 2026 · Flight 15 \"next month\" (Musk, Oct 20); reported ~Nov 8, not firm; no FAA license yet",
-      detail: "Flight 14 reached orbit and deployed 26 Starlink V3 satellites. Flight 15 hardware finished static fires: Booster 22 (33 engines, Oct 25) and Ship 42 (single-engine deorbit-burn test and six-engine ~60 s firing, Oct 27). Flight 15 will try to catch both booster and ship.", orgs: ["spacex"], sources: ["prior-brief", "atv-starship15", "nsf-ship42"] },
+    { id: "starship", title: "Starship", status: "flying", when: "Flight 14: Sep 28, 2026 · Flight 15: FAA air-traffic planning shows Nov 12 (not an official date); FAA license still pending",
+      detail: "Flight 14 reached orbit and deployed 26 Starlink V3 satellites. Flight 15 hardware finished static fires: Booster 22 (33 engines, Oct 25) and Ship 42 (single-engine deorbit-burn test and six-engine ~60 s firing, Oct 27). Flight 15 will try to catch both booster and ship — the first ship catch attempt; it needs an FAA license modification covering return-to-launch-site and both catches.", orgs: ["spacex"], sources: ["prior-brief", "atv-starship15", "nsf-ship42", "techtimes-s15", "starlust-s15"] },
     { id: "new-glenn", title: "New Glenn", status: "grounded", when: "Return to flight targeted December 2026 (not firm)",
       detail: "Grounded after May 2026 pad explosion. LC-36A's vehicle access tower is fully reassembled (CEO Dave Limp, Oct 24); Blue Origin expects the pad ready in the first half of December and still aims to fly again this year. Return flight to carry Blue Ring (per Bezos).", orgs: ["blue-origin"], sources: ["spacenews-ng-rtf", "sfn-new-glenn", "prior-brief"] },
-    { id: "vulcan", title: "Vulcan Centaur", status: "grounded", when: "Return to flight now listed for November 2026, no date (was reported NET Oct 29; ULA has not posted a date)",
-      detail: "Has not flown since a Feb 2026 solid-booster anomaly. Return flight is Amazon Leo LV-01; its payload has moved into ULA's vertical integration facility. A second Amazon Vulcan is planned this year.", orgs: ["ula", "amazon"], sources: ["scw-oct-launches", "ars-rr-vulcan", "amazon-leo"] },
+    { id: "vulcan", title: "Vulcan Centaur", status: "grounded", when: "Return to flight: Vulcan Leo 1 targeted Fri Nov 13, 2026, 12:54 p.m. EST (11:54 AM CT), pending Eastern Range approval",
+      detail: "Has not flown since a Feb 2026 solid-booster anomaly. Return flight LV-01 flies the VC6L configuration (six boosters with an improved nozzle design, LEO-optimized Centaur V) with 40 Amazon Leo satellites — the first of 38 Amazon Vulcan missions. Amazon's second Vulcan mission is being readied in parallel.", orgs: ["ula", "amazon"], sources: ["ula-leo1", "amazon-leo"] },
     { id: "atlas-v", title: "Atlas V", status: "flying", detail: "Last Amazon Leo Atlas launch LA-08 on Jul 2, 2026.", orgs: ["ula", "amazon"], sources: ["amazon-leo"] },
     { id: "ariane-6", title: "Ariane 6", status: "flying", when: "VA271 NET Nov 23, 2026", detail: "10th flight carries 36 Amazon Leo sats.", orgs: ["arianespace", "esa", "amazon"], sources: ["arianespace-le04"] },
     { id: "soyuz-2", title: "Soyuz-2", status: "flying", detail: "Launched MS-29 and Progress 96.", orgs: ["roscosmos"], sources: ["nasa-vv"] },
@@ -223,15 +245,15 @@ export const FUNCTIONS: BriefingFunction[] = [
   ]},
   { id: "orbital-networks", title: "Orbital networks", entries: [
     { id: "starlink", title: "Starlink", status: "active", detail: "V3 satellites now deploying from Starship (Flight 14: 26 V3).", orgs: ["spacex"], sources: ["prior-brief"] },
-    { id: "amazon-leo", title: "Amazon Leo (formerly Project Kuiper)", status: "active", when: "Next: Vulcan LV-01 listed for November (no date); Ariane 6 LE-04 NET Nov 23, 2026",
+    { id: "amazon-leo", title: "Amazon Leo (formerly Project Kuiper)", status: "active", when: "Next: Vulcan LV-01 Nov 13, 2026 (40 satellites, pending range approval); Ariane 6 LE-04 NET Nov 23, 2026",
       detail: "396 satellites deployed across 14 launches (latest Jul 2). Initial service still planned for 2026, no date.",
-      orgs: ["amazon", "arianespace", "ula", "spacex", "blue-origin"], sources: ["amazon-leo", "arianespace-le04", "scw-oct-launches"] },
+      orgs: ["amazon", "arianespace", "ula", "spacex", "blue-origin"], sources: ["amazon-leo", "ula-leo1", "arianespace-le04"] },
   ]},
   { id: "suborbital", title: "Suborbital flight", entries: [
     { id: "new-shepard", title: "Blue Origin New Shepard", status: "paused", when: "Paused ≥2 years from Jan 2026",
       detail: "Last flight NS-38 on Jan 22, 2026.", orgs: ["blue-origin"], sources: ["spacedaily-subo"] },
     { id: "vg-delta", title: "Virgin Galactic Delta (Spaceship Apeiron)", status: "open", when: "First commercial spaceflight now expected early Q2 2027 (was Feb 2027)",
-      detail: "Lead ship named Apeiron (Oct 28) and set to ferry to Spaceport America under mothership Eve on Oct 28 to finish avionics software validation before flight tests. Second ship now expected late Q2/early Q3 2027. More detail promised on the Q3 earnings call in November.", orgs: ["virgin-galactic"], sources: ["vg-oct26", "vg-apeiron", "vg-q2"] },
+      detail: "Lead ship named Apeiron and flown under mothership Eve to Spaceport America on Oct 28; avionics software integration and validation and flight-test prep are next, then glide and rocket-powered test flights. Second ship expected late Q2/early Q3 2027. Q3 results and call: Thu Nov 12 (2:00 PM PT / 4:00 PM CT).", orgs: ["virgin-galactic"], sources: ["vg-apeiron-home", "vg-apeiron", "vg-q3-date", "vg-q2"] },
   ]},
   { id: "future-stations", title: "Stations not in orbit yet", entries: [
     { id: "cld-rfp", title: "NASA Commercial LEO Destinations Phase 2", status: "open", when: "Final RFP Oct 9; proposals due Dec 8, 2026; awards ~Apr 15, 2027",
@@ -245,21 +267,21 @@ export const FUNCTIONS: BriefingFunction[] = [
 ];
 
 /** Outside the 8 jobs: humanity's farthest spacecraft. Distances from JPL Horizons
- *  (observer range, quantity 20) at 2026-10-28 13:00 UTC = 8:00 AM CT. 1 AU = 149,597,870.7 km. */
+ *  (observer range, quantity 20) at 2026-11-04 14:00 UTC = 8:00 AM CT. 1 AU = 149,597,870.7 km. */
 export const DEEP_SPACE: BriefingFunction = { id: "deep-space", title: "Deep space: Voyager", entries: [
   { id: "voyager-1", title: "Voyager 1", status: "active", when: "Launched Sep 5, 1977; in interstellar space since Aug 2012",
-    detail: "Farthest human-made object. Radio signals take about 23.9 hours one way (23 h 57 min). Operated by NASA JPL.",
+    detail: "Farthest human-made object. Radio signals take about 24.0 hours one way (23 h 58 min). Operated by NASA JPL.",
     distances: [
-      { from: "Earth", au: 172.78, km: 25_847_690_000, mi: 16_061_010_000 },
-      { from: "Sun", au: 172.18, km: 25_757_154_000, mi: 16_004_753_000 },
-    ], distancesAsOf: "Oct 28, 2026, 8:00 AM CT (13:00 UTC)",
+      { from: "Earth", au: 172.91, km: 25_867_036_000, mi: 16_073_031_000 },
+      { from: "Sun", au: 172.24, km: 25_767_424_000, mi: 16_011_135_000 },
+    ], distancesAsOf: "Nov 4, 2026, 8:00 AM CT (14:00 UTC)",
     orgs: ["nasa"], sources: ["jpl-horizons", "nasa-voyager-where"] },
   { id: "voyager-2", title: "Voyager 2", status: "active", when: "Launched Aug 20, 1977; in interstellar space since Nov 2018",
     detail: "Only spacecraft to visit Uranus and Neptune. Radio signals take about 20.0 hours one way. Operated by NASA JPL.",
     distances: [
-      { from: "Earth", au: 144.51, km: 21_618_289_000, mi: 13_432_982_000 },
-      { from: "Sun", au: 144.32, km: 21_589_613_000, mi: 13_415_164_000 },
-    ], distancesAsOf: "Oct 28, 2026, 8:00 AM CT (13:00 UTC)",
+      { from: "Earth", au: 144.66, km: 21_640_956_000, mi: 13_447_067_000 },
+      { from: "Sun", au: 144.38, km: 21_598_767_000, mi: 13_420_852_000 },
+    ], distancesAsOf: "Nov 4, 2026, 8:00 AM CT (14:00 UTC)",
     orgs: ["nasa"], sources: ["jpl-horizons", "nasa-voyager-where"] },
 ]};
 
