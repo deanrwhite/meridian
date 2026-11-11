@@ -4,6 +4,16 @@ import { copyFileSync, mkdirSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { ORGANIZATIONS, ALL_ENTRIES } from './src/data/briefing';
 
+// Vite's dev server injects inline module scripts and an HMR WebSocket.
+// A strict CSP meta in index.html would break local reload; strip it only when serving.
+const relaxCspInDev = (): Plugin => ({
+  name: 'relax-csp-in-dev',
+  apply: 'serve',
+  transformIndexHtml(html) {
+    return html.replace(/<meta http-equiv="Content-Security-Policy"[^>]*>/, '');
+  },
+});
+
 // GitHub Pages has no SPA rewrites. Emit a copy of index.html for every known route
 // (Pages serves /meridian/org/spacex from org/spacex.html with HTTP 200), and
 // 404.html as the fallback for anything else.
@@ -24,6 +34,6 @@ const spaRoutes = (): Plugin => ({
 // Production builds (and `vite preview`) are served from https://deanrwhite.github.io/meridian/; dev stays at '/'.
 export default defineConfig(({ command, isPreview }) => ({
   base: command === 'build' || isPreview ? '/meridian/' : '/',
-  plugins: [react(), spaRoutes()],
+  plugins: [react(), spaRoutes(), relaxCspInDev()],
   server: { host: '0.0.0.0', port: 8080, strictPort: true },
 }));
